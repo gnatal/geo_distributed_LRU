@@ -10,3 +10,8 @@
 
 ## hints
 >As a hint, we are not looking for quantity, but rather quality, maintainability, scalability, testability and a code that you can be proud of.   When submitting your code add the necessary documentation to explain your overall design and missing functionalities.  Do it to the best of your knowledge.
+
+
+## Assumptions
+
+>I'm assuming that I have a bunch of middle servers just to choose the best place to request, also I'm assuming that I have a queue that can hold failed requests to try again
