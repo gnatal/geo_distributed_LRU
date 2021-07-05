@@ -1,11 +1,11 @@
 import Knex, { CreateTableBuilder } from 'knex'
 
 export async function up(knex: Knex) {
-  return knex.schema.createTable('packages', (table) => {
+  return knex.schema.createTable('resources', (table) => {
     table.increments('id').primary()
-    table.string('package').notNullable()
-    table.boolean('active').notNullable()
-    table.date('last_time_used').notNullable()
+    table.string('path').notNullable()
+    table.string('data').notNullable()
+    table.date('expiration_date').notNullable()
     table.timestamps()
   })
 }

@@ -1,9 +1,9 @@
 import express from 'express'
-
+import InstanceController from './controllers/IntancesController'
 // import PointController from './controllers/PointsController'
 // import ItemController from './controllers/ItemsController'
 
-// const pointController = new PointController()
+const instanceController = new InstanceController()
 // const itemController = new ItemController()
 
 const routes = express.Router()
@@ -13,14 +13,6 @@ routes.get('/', (request, response) => {
   return response.json({ message: 'hello word' })
 })
 
-// routes.get('/items', itemController.index)
-
-// routes.post('/points', pointController.create)
-
-// routes.get('/points', pointController.index)
-
-// routes.get('/points/:id', pointController.show)
-
-// index => listagem, show => unico item, create, update, delete
+routes.get('/getInstances/:region', instanceController.index)
 
 export default routes

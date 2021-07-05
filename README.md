@@ -14,4 +14,8 @@
 
 ## Assumptions
 
->I'm assuming that I have a bunch of middle servers just to choose the best place to request, also I'm assuming that I have a queue that can hold failed requests to try again
+>I'm assuming that I have a bunch of middle servers (CDN's) just to choose the best place to request, also I'm assuming that I have a queue that can hold failed requests to try again. This code actually run at one of this middle servers doing the following:
+when asked for a resource, this server search in his cache if the resource is there,
+if isn't it will search for the resource at the closest instance, when asked to write
+a new resource the server will create a queue with all instances and send a write 
+order, if any write order fails, this order go to the end of the queue to be tried again. An update is just a "write operation", the deletion also works in with this queue.
