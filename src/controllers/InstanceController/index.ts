@@ -1,4 +1,4 @@
-import knex from '../database/connection'
+import knex from '../../database/connection'
 import { Request, Response } from 'express'
 
 interface IInstance {
@@ -52,6 +52,11 @@ class InstanceController {
     } catch (e) {
       console.log('e', e)
     }
+  }
+  async create(request: Request, response: Response) {
+    const instance = {}
+    const transaction = await knex.transaction()
+    const inserted_ids = await transaction('instance').insert(instance)
   }
 }
 

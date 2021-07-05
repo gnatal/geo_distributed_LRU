@@ -1,5 +1,5 @@
 import express from 'express'
-import InstanceController from './controllers/IntancesController'
+import InstanceController from './controllers/InstanceController'
 // import PointController from './controllers/PointsController'
 // import ItemController from './controllers/ItemsController'
 

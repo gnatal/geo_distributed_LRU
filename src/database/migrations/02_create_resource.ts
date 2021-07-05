@@ -6,10 +6,9 @@ export async function up(knex: Knex) {
     table.string('path').notNullable()
     table.string('data').notNullable()
     table.date('expiration_date').notNullable()
-    table.timestamps()
   })
 }
 
 export async function down(knex: Knex) {
-  return knex.schema.dropTable('packages')
+  return knex.schema.dropTable('resources')
 }
