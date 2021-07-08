@@ -5,7 +5,7 @@ export async function up(knex: Knex) {
     table.increments('id').primary()
     table.string('path').notNullable()
     table.string('method').notNullable()
-    table.string('package').notNullable()
+    table.string('payload').notNullable()
     table
       .string('instance_id')
       .notNullable()
