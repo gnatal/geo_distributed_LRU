@@ -1,10 +1,7 @@
 import express from 'express'
 import InstanceController from './controllers/InstanceController'
-// import PointController from './controllers/PointsController'
-// import ItemController from './controllers/ItemsController'
 
 const instanceController = new InstanceController()
-// const itemController = new ItemController()
 
 const routes = express.Router()
 routes.use(express.json())
