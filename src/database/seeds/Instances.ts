@@ -39,10 +39,3 @@ export async function seed(knex: Knex) {
     },
   ])
 }
-
-// table.increments('id').primary()
-// table.string('region').notNullable()
-// table.decimal('longitude').notNullable()
-// table.decimal('latitude').notNullable()
-// table.boolean('active').notNullable()
-// table.date('last_time_used').notNullable()

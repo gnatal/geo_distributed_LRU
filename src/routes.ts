@@ -14,5 +14,8 @@ routes.get('/', (request, response) => {
 })
 
 routes.get('/getInstances/:region', instanceController.index)
+routes.post('/getInstances/:region', instanceController.index)
+routes.put('/getInstances/:region', instanceController.index)
+routes.delete('/getInstances/:region', instanceController.index)
 
 export default routes

@@ -1,6 +1,7 @@
 import knex from '../../database/connection'
 import { Request, Response } from 'express'
 import InstanceService from '../../Services/Instance'
+import Queue from '../../Services/Queue'
 import * as types from './types'
 
 const myRegion = 'europe' //here I'm assuming that I have an env file that can
@@ -42,10 +43,31 @@ class ResourceController {
     }
   }
 
+  /**
+   * Here a create a new resource
+   */
   async create(request: Request, response: Response) {
-
+    const { path, data } = request.body;
+    const queueService = new Queue();
+    queueService.LoadQueue({ path, method: "post", payload: data });
     return response.json("")
   }
+
+  async update(request: Request, response: Response) {
+    const { path, data } = request.body;
+    const queueService = new Queue();
+    queueService.LoadQueue({ path, method: "put", payload: data });
+    return response.json("")
+  }
+
+  async delete(request: Request, response: Response) {
+    const { path } = request.body;
+    const queueService = new Queue();
+    queueService.LoadQueue({ path, method: "delete", payload: "" });
+    return response.json("")
+  }
+
+
 }
 
 export default ResourceController

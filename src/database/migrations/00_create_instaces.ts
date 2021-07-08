@@ -7,7 +7,6 @@ export async function up(knex: Knex) {
     table.decimal('longitude').notNullable()
     table.decimal('latitude').notNullable()
     table.boolean('active').notNullable()
-    table.date('last_time_used').notNullable()
   })
 }
 
