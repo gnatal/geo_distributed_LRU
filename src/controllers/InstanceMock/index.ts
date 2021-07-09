@@ -28,27 +28,29 @@ class InstanceMockController {
             console.log("error writing mock")
         }
 
-        // const inserted_ids = await transaction('instance').insert(instance)
     }
 
     async update(request: Request, response: Response) {
-        const { path, instance_id, payload } = request.body
-        const newInstance: IInstanceMock = {
-            path,
-            data: payload,
-            instance_id,
-        }
+        try {
 
-        await knex('instance_mock').insert(newInstance)
-        return response.status(201)
+            const { path, instance_id, payload } = request.body
+
+            await knex('instance_mock').update({ data: payload }).where("path", path);
+            return response.status(201)
+        } catch (e) {
+            console.log("error updating", e)
+        }
     }
 
-    async delte(request: Request, response: Response) {
-        const { path, instance_id, payload } = request.body
+    async delete(request: Request, response: Response) {
+        try {
 
-        await knex('instance_mock').del().where("path", path).andWhere("payload", payload).andWhere("instance_id", instance_id)
-        // const inserted_ids = await transaction('instance').insert(instance)
-        return response.status(201)
+            const { path } = request.body
+            await knex('instance_mock').where("path", path).del()
+            return response.status(201)
+        } catch (e) {
+            console.log("error deleting", e)
+        }
     }
 }
 

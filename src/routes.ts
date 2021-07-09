@@ -20,5 +20,7 @@ routes.put('/resource', resourceController.update)
 routes.delete('/resource', resourceController.delete)
 
 routes.post('/instance_mock', instanceMock.create)
+routes.put('/instance_mock', instanceMock.update)
+routes.delete('/instance_mock', instanceMock.delete)
 
 export default routes

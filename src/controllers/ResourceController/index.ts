@@ -69,9 +69,9 @@ class ResourceController {
 
       const { path, data } = request.body;
       const queueService = new Queue();
-      await queueService.LoadQueue({ path, method: "put", payload: data });
+      const queue = await queueService.LoadQueue({ path, method: "put", payload: data });
       await queueService.UnloadQueue();
-      return response.json("")
+      return response.json({ queue }).status(200)
     } catch (e) {
       console.log("error", e)
     }
@@ -80,9 +80,9 @@ class ResourceController {
   async delete(request: Request, response: Response) {
     const { path } = request.body;
     const queueService = new Queue();
-    queueService.LoadQueue({ path, method: "delete", payload: "" });
+    const queue = queueService.LoadQueue({ path, method: "delete", payload: "" });
     await queueService.UnloadQueue();
-    return response.json("")
+    return response.json({ queue }).status(200)
   }
 
 
