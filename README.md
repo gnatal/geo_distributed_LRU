@@ -19,3 +19,24 @@ when asked for a resource, this server search in his cache if the resource is th
 if isn't it will search for the resource at the closest instance, when asked to write
 a new resource the server will create a queue with all instances and send a write 
 order, if any write order fails, this order go to the end of the queue to be tried again. An update is just a "write operation", the deletion also works in with this queue.
+
+## How to run 
+
+1. download the repositor
+
+2. run yarn
+
+3. run yarn knex:migrate
+
+4. run yarn knex:seed
+
+## testing
+
+You can test with post man (there is the collection file in the root path collection.js)
+or you can simply run the unit tests
+
+```
+    yarn test
+
+```
+
