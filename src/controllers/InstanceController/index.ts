@@ -14,7 +14,6 @@ interface IUserPoint {
   longitude: number
 }
 
-
 const myRegion = 'europe'
 
 class InstanceController {
@@ -23,12 +22,11 @@ class InstanceController {
       const { userPoint } = request.body
       const instances = await knex<IInstance>('instances').where('active', true)
 
-      return response.json("")
+      return response.json('')
     } catch (e) {
       console.log('e', e)
     }
   }
-
 
   // here I create a new instance to work on the system
   async create(request: Request, response: Response) {
@@ -37,7 +35,7 @@ class InstanceController {
       region: myRegion,
       latitude,
       longitude,
-      active: true
+      active: true,
     }
 
     await knex('instance').insert(newInstance)
