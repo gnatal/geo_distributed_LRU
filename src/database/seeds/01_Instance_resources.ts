@@ -1,7 +1,7 @@
 import Knex from 'knex'
 
 export async function seed(knex: Knex) {
-    await knex('instances').insert([
+    await knex('instance_mock').insert([
         {
             path: 'user',
             data: 'jorges',

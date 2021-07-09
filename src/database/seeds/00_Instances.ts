@@ -7,35 +7,30 @@ export async function seed(knex: Knex) {
       latitude: '1',
       longitude: '2',
       active: true,
-      last_time_used: new Date(),
     },
     {
       region: 'north-america',
       latitude: '3',
       longitude: '2',
       active: true,
-      last_time_used: new Date(),
     },
     {
       region: 'asia',
       latitude: '1',
       longitude: '8',
       active: true,
-      last_time_used: new Date(),
     },
     {
       region: 'europe',
       latitude: '4',
       longitude: '5',
       active: true,
-      last_time_used: new Date(),
     },
     {
       region: 'south-asia',
       latitude: '-1',
       longitude: '0',
       active: true,
-      last_time_used: new Date(),
     },
   ])
 }

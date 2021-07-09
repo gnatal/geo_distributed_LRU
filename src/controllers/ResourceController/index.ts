@@ -17,10 +17,11 @@ class ResourceController {
   async index(request: Request, response: Response) {
     try {
       const { path, latitude, longitude } = request.body
-      const resource = await knex<types.IResource>('resource')
+      const resource = await knex<types.IResource>('resources')
         .where('path', path)
         .andWhere('expiration_date', '<=', new Date())
         .first()
+
       // don't get any expired data
 
       if (!resource) {
@@ -29,15 +30,19 @@ class ResourceController {
         const closestInstance = await instanceService.getClosestInstances({ latitude, longitude }, regionInstances)
 
         if (!closestInstance) return response.json("Resource unavailable").status(400)
-        const freshResource = instanceService.getDataFromInstance(closestInstance, path)
 
-        let today = new Date();
-        today.setHours(today.getHours() + 3);
+        const freshResource = await instanceService.getDataFromInstance(closestInstance, path)
 
-        await knex('resources').insert({ path: path, data: freshResource.data, expiratio_date: today });
+        console.log("resource", freshResource)
+
+        let today = Date.now();
+        today += 3 * 3600; //adding 3 hours to the time stamp
+        await knex('resources').insert({ path: path, data: freshResource.data, expiration_date: today });
+        return response.json({ freshResource, wasCached: false })
+      } else {
+        return response.json({ resource, wasCached: true })
       }
 
-      return response.json({ resource })
     } catch (e) {
       console.log('e', e)
     }
@@ -47,17 +52,29 @@ class ResourceController {
    * Here a create a new resource
    */
   async create(request: Request, response: Response) {
-    const { path, data } = request.body;
-    const queueService = new Queue();
-    queueService.LoadQueue({ path, method: "post", payload: data });
-    return response.json("")
+    try {
+
+      const { path, data } = request.body;
+      const queueService = new Queue();
+      const queue = await queueService.LoadQueue({ path, method: "post", payload: data });
+      await queueService.UnloadQueue();
+      return response.json({ queue }).status(201)
+    } catch (e) {
+      console.log("error", e)
+    }
   }
 
   async update(request: Request, response: Response) {
-    const { path, data } = request.body;
-    const queueService = new Queue();
-    queueService.LoadQueue({ path, method: "put", payload: data });
-    return response.json("")
+    try {
+
+      const { path, data } = request.body;
+      const queueService = new Queue();
+      await queueService.LoadQueue({ path, method: "put", payload: data });
+      await queueService.UnloadQueue();
+      return response.json("")
+    } catch (e) {
+      console.log("error", e)
+    }
   }
 
   async delete(request: Request, response: Response) {

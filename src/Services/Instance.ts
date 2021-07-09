@@ -44,14 +44,14 @@ class InstanceService {
         const distances = instances.map((instance) => {
             const a = instance.latitude - userPoint.latitude
             const b = instance.longitude - userPoint.longitude
-            console.log('a and b', { a, b })
+            // console.log('a and b', { a, b })
             return Math.sqrt(a * a + b * b)
         })
         return instances[distances.indexOf(Math.min(...distances))]
     }
 
-    async getDataFromInstance(instance: IInstance, path: string): IInstanceResouce {
-        const resource = await knex<IInstanceResouce>('instance_mock').where("instance_id", instance.id).andWhere('path', path)
+    async getDataFromInstance(instance: IInstance, path: string) {
+        const resource = await knex<IInstanceResouce>('instance_mock').where("instance_id", instance.id).andWhere('path', path).first();
         return resource;
     }
 

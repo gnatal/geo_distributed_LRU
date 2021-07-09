@@ -2,7 +2,7 @@ import knex from '../database/connection'
 import axios from 'axios';
 
 interface IQueueOperation {
-    id?: string;
+    id?: string
     path: string
     method: string
     payload: string
@@ -17,17 +17,26 @@ interface IInstance {
     active: boolean
 }
 
+const basePath = "http://localhost:3000/instance_mock"
+
 
 class QueueService {
 
     async LoadQueue({ path, method, payload }: IQueueOperation) {
-        const instances = await knex<IInstance>('instances');
-        const queue: IQueueOperation[] = [];
-        instances.forEach(instance => {
-            queue.push({ path, method, payload, instance_id: instance.id })
-        })
+        try {
 
-        await knex('operation_queue').insert(queue)
+            const instances = await knex<IInstance>('instances');
+            const queue: IQueueOperation[] = [];
+            instances.forEach(instance => {
+                queue.push({ path, method, payload, instance_id: instance.id })
+            })
+
+            await knex('operation_queue').insert(queue)
+            return await knex('operation_queue')
+
+        } catch (e) {
+            console.log("error at loading queue", e)
+        }
     }
 
     async UnloadQueue() {
@@ -36,13 +45,14 @@ class QueueService {
             try {
                 await axios({
                     method: queue.method,
-                    url: queue.path,
-                    data: queue.payload
+                    url: basePath,
+                    data: { payload: queue.payload, instance_id: queue.instance_id, path: queue.path }
                 });
-
-                await knex('operation_queue').where('id', queue.id).del()
+                console.log("queue id", queue.id)
+                const count = await knex('operation_queue').where('id', queue.id).del()
+                console.log("counting deleted", count)
             } catch (e) {
-                console.log(e) //here I would use a sentry Io or something to log the error 
+                console.log("error unloading", e) //here I would use a sentry Io or something to log the error 
             }
         })
     }

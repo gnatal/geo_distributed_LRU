@@ -11,7 +11,8 @@ export async function up(knex: Knex) {
       .notNullable()
       .references('id')
       .inTable('instances')
-    table.timestamps()
+    table.timestamp('createdAt').defaultTo(knex.fn.now());
+    table.timestamp('updatedAt').defaultTo(knex.fn.now());
   })
 }
 
