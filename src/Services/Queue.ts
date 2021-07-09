@@ -42,7 +42,7 @@ class QueueService {
             return await knex<IQueueOperation>('operation_queue')
 
         } catch (e) {
-            console.log("error at loading queue", e)
+            console.log("error at loading queue")
         }
     }
 
@@ -67,12 +67,10 @@ class QueueService {
                     default:
                         config = { method: "GET" as Method, url: basePath, data: { ...queue[index] } }
                 }
-                axios(config).then(() => {
-                    console.log("queue id", queue[index].id)
-                }).catch(e => console.log("error unloading queue", e));
+                axios(config)
                 await knex('operation_queue').where('id', queue[index].id).del()
             } catch (e) {
-                console.log("error unloading", e) //here I would use a sentry Io or something to log the error 
+                console.log("error unloading") //here I would use a sentry Io or something to log the error 
             }
     }
 

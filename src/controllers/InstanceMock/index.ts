@@ -38,7 +38,7 @@ class InstanceMockController {
             await knex('instance_mock').update({ data: payload }).where("path", path);
             return response.status(201)
         } catch (e) {
-            console.log("error updating", e)
+            console.log("error updating")
         }
     }
 
@@ -49,7 +49,7 @@ class InstanceMockController {
             await knex('instance_mock').where("path", path).del()
             return response.status(201)
         } catch (e) {
-            console.log("error deleting", e)
+            console.log("error deleting")
         }
     }
 }

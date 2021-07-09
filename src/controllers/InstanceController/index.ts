@@ -24,7 +24,7 @@ class InstanceController {
 
       return response.json('')
     } catch (e) {
-      console.log('e', e)
+      console.log('eerror getting isntance')
     }
   }
 

@@ -22,7 +22,7 @@ order, if any write order fails, this order go to the end of the queue to be tri
 
 ## How to run 
 
-1. download the repositor
+1. download the repository
 
 2. run yarn
 
@@ -33,10 +33,11 @@ order, if any write order fails, this order go to the end of the queue to be tri
 ## testing
 
 You can test with post man (there is the collection file in the root path collection.js)
-or you can simply run the unit tests
+or you can simply run the unit tests by opening 2 terminals the first to run the server the second to run the tests
 
 ```
-    yarn test
-
+    yarn dev //terminal 1
+    yarn test //terminal 2
 ```
 
+the testing will pass only the first time, at the second there will be cached resources

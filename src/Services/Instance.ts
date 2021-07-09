@@ -31,7 +31,7 @@ class InstanceService {
                 instances = await knex<IInstance>('instances').where('active', true)
             return instances
         } catch (e) {
-            console.log('e', e) //another log file that I would make
+            console.log('error getting by region') //another log file that I would make
         }
     }
 

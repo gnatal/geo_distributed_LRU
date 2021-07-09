@@ -31,10 +31,7 @@ class ResourceController {
 
         if (!closestInstance) return response.json("Resource unavailable").status(400)
 
-        const freshResource = await instanceService.getDataFromInstance(closestInstance, path)
-
-        console.log("resource", freshResource)
-
+        let freshResource = (await instanceService.getDataFromInstance(closestInstance, path) || { data: "" })
         let today = Date.now();
         today += 3 * 3600; //adding 3 hours to the time stamp
         await knex('resources').insert({ path: path, data: freshResource.data, expiration_date: today });
@@ -44,7 +41,8 @@ class ResourceController {
       }
 
     } catch (e) {
-      console.log('e', e)
+      console.log('error at resource controlelr')
+      return response.json("not found").status(401)
     }
   }
 
@@ -60,7 +58,7 @@ class ResourceController {
       await queueService.UnloadQueue();
       return response.status(201).json({ queue })
     } catch (e) {
-      console.log("error", e)
+      return response.json("error").status(400)
     }
   }
 
@@ -73,16 +71,22 @@ class ResourceController {
       await queueService.UnloadQueue();
       return response.json({ queue }).status(200)
     } catch (e) {
-      console.log("error", e)
+      return response.json("error").status(400)
     }
   }
 
   async delete(request: Request, response: Response) {
-    const { path } = request.body;
-    const queueService = new Queue();
-    const queue = queueService.LoadQueue({ path, method: "delete", payload: "" });
-    await queueService.UnloadQueue();
-    return response.json({ queue }).status(200)
+    try {
+
+      const { path } = request.body;
+      const queueService = new Queue();
+      const queue = queueService.LoadQueue({ path, method: "delete", payload: "" });
+      await queueService.UnloadQueue();
+      return response.json({ queue }).status(200)
+    } catch (e) {
+
+      return response.json("error").status(400)
+    }
   }
 
 
