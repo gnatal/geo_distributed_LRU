@@ -19,9 +19,6 @@ const myRegion = 'europe'
 class InstanceController {
   async index(request: Request, response: Response) {
     try {
-      const { userPoint } = request.body
-      const instances = await knex<IInstance>('instances').where('active', true)
-
       return response.json('')
     } catch (e) {
       console.log('eerror getting isntance')
@@ -30,15 +27,21 @@ class InstanceController {
 
   // here I create a new instance to work on the system
   async create(request: Request, response: Response) {
-    const { latitude, longitude } = request.body
-    const newInstance: IInstance = {
-      region: myRegion,
-      latitude,
-      longitude,
-      active: true,
-    }
+    try {
+      const { latitude, longitude, region } = request.body
+      const newInstance: IInstance = {
+        region,
+        latitude,
+        longitude,
+        active: true,
+      }
 
-    await knex('instance').insert(newInstance)
+      await knex('instances').insert(newInstance)
+      return response.status(201).json({ newInstance })
+    } catch (e) {
+      console.log('error', e)
+      return response.status(401).json({ error: e })
+    }
     // const inserted_ids = await transaction('instance').insert(instance)
   }
 }
