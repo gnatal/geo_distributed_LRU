@@ -58,7 +58,7 @@ class ResourceController {
       const queueService = new Queue();
       const queue = await queueService.LoadQueue({ path, method: "post", payload: data });
       await queueService.UnloadQueue();
-      return response.json({ queue }).status(201)
+      return response.status(201).json({ queue })
     } catch (e) {
       console.log("error", e)
     }
@@ -81,6 +81,7 @@ class ResourceController {
     const { path } = request.body;
     const queueService = new Queue();
     queueService.LoadQueue({ path, method: "delete", payload: "" });
+    await queueService.UnloadQueue();
     return response.json("")
   }
 
